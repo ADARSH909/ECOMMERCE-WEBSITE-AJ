@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: black;
+        }
+
+        #newsletter {
+            background-color: #000;
+            padding: 20px;
+        }
+
+        .newstext {
+            margin-bottom: 20px;
+        }
+
+        .form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form button {
+            padding: 10px 20px;
+        }
+
+        #newsletter .form {
+            flex-direction: column;
+            align-items: center;
+            margin-left: 500px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4 id="signup">Sign Up </h4>
+            <p>Get E-mail updates about our latest shop and<span> special offers.</span></p>
+        </div>
+    </section>
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="form">
+            <input id="email" type="text" placeholder="Your email address">
+            <input id="name" type="text" placeholder="Your name">
+            <input id="password" type="password" placeholder="Your password">
+            <button id="signup-btn" class="normal">Sign Up</button>
+        </div>
+    </section>
+    <!-- <script src="script.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Your JavaScript code -->
+    <script>
+        $(document).ready(function() {
+            $("#signup-btn").click(function() {
+              var email = $("#email").val();
+              var name = $("#name").val();
+              var password = $("#password").val();
+          
+              // Perform client-side password validation
+              if (!isPasswordValid(password)) {
+                // Show an error message or provide password suggestions
+                alert("Please enter a valid password.\nPassword should contain at least 2 uppercase letters, 2 numerical values, 1 lowercase letter, 1 special character, and should be at least 8 characters long.");
+                return; // Stop the form submission
+              }
+          
+              // Send form data to the server
+              $.post("signup.php", {
+                email: email,
+                name: name,
+                password: password
+              }, function(response) {
+                // Handle the server response
+                if (response === "success") {
+                  // Redirect to the login page or show a success message
+                  window.location.href = "index.html";
+                } else {
+                  // Show an error message
+                  alert("Sign up failed. Please try again.");
+                }
+              });
+            });
+            $(document).ready(function() {
+                $("#signup-btn").click(function() {
+                  // Your form validation and submission code here
+                  // Navigate to the index.html page on successful form submission
+                  window.location.href = "index.html";
+                });
+              });              
+          });
+          
+          function isPasswordValid(password) {
+            // Password validation criteria
+            var uppercaseRegex = /[A-Z]/g;
+            var lowercaseRegex = /[a-z]/g;
+            var numericalRegex = /[0-9]/g;
+            var specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/g;
+            var minLength = 8;
+          
+            // Check if the password meets all the criteria
+            return (
+              password.length >= minLength &&
+              password.match(uppercaseRegex) && password.match(uppercaseRegex).length >= 2 &&
+              password.match(numericalRegex) && password.match(numericalRegex).length >= 2 &&
+              password.match(lowercaseRegex) &&
+              password.match(specialCharRegex)
+            );
+          }    
+                
+        </script>
+</body>
+
+</html>
